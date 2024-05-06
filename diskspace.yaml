@@ -1,0 +1,22 @@
+---
+- name: Check Disk Space on Fedora
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Get disk usage information
+      set_fact:
+        disk_info: "{{ ansible_mounts }}"
+
+    - name: Analyze disk usage and report low space
+      debug:
+        msg: "Filesystem {{ item.mount }} has {{ item.size_available | round(2) }} GB free space, which is less than {{ low_space_threshold }} GB"
+      when: item.size_available / (1024 * 1024 * 1024) < low_space_threshold
+      with_items: "{{ disk_info.values() }}"
+      vars:
+        low_space_threshold: 5  # Adjust this value as needed (in GB)
+
+    - name: Report overall disk usage
+      debug:
+        msg: "Filesystem {{ item.mount }} has {{ item.size_available | round(2) }} GB free space out of total {{ item.size | round(2) }} GB"
+      with_items: "{{ disk_info.values() }}"
