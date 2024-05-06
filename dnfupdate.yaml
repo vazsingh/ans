@@ -1,1 +1,15 @@
-dnf update
+---
+- name: Update all packages using dnf
+  hosts: all
+  become: true  # Requires root privileges
+  tasks:
+    - name: Update package database
+      dnf:
+        name: "*"
+        state: update
+        cache_valid: no  # Optional: Ensures latest package list is downloaded
+
+    - name: Upgrade all packages
+      dnf:
+        name: "*"
+        state: latest
