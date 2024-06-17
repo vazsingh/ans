@@ -1,1 +1,8 @@
-ping 8.8.8.8
+---
+- hosts: all  # This targets all hosts in your inventory file
+
+  tasks:
+    - name: Ping 8.8.8.8
+      ping:
+        dest: 8.8.8.8
+...
