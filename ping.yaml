@@ -1,8 +1,14 @@
 ---
-- hosts: all  # This targets all hosts in your inventory file
+- name: Check ping to 8.8.8.8
+  hosts: all  # Targets all groups defined in your inventory file
+  become: false  # Doesn't require root privileges
 
   tasks:
-    - name: Ping 8.8.8.8
+    - name: Ping Google DNS server
       ping:
         dest: 8.8.8.8
-...
+      register: ping_result
+
+    - name: Show ping results (debug only)
+      debug:
+        msg: "Ping to 8.8.8.8: {{ ping_result.stdout }}"
