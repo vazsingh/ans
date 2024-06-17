@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Print hostname
+      debug:
+        msg: "Hostname: {{ ansible_hostname }}"
