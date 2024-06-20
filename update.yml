@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Update system packages
+      dnf:
+        name: "*"
+        state: latest
+      # You can optionally add these lines for more control
+      # update_cache: yes  # Update package cache before updating
+      # exclude: ['<package_name>']  # Exclude specific package from update
